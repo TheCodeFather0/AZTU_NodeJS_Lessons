@@ -1,0 +1,23 @@
+[
+  {
+    "id": "iuk2",
+    "productName": "qalos",
+    "price": 10,
+    "discount": "0",
+    "currency": "AZN"
+  },
+  {
+    "id": "erfgv2b3n",
+    "productName": "Notebook",
+    "price": 5,
+    "discount": "0",
+    "currency": "AZN"
+  },
+  {
+    "id": "ertyj3k456",
+    "productName": "Defter",
+    "price": 10,
+    "discount": "0",
+    "currency": "AZN"
+  }
+]

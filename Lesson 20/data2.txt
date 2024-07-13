@@ -1,1 +1,2 @@
-salam teleberler, node 
+salam teleberler, node js bizlik, biz biz biz...
+
