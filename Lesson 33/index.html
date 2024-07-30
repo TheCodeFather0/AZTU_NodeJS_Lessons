@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      input {
+        display: block;
+        margin: 10px;
+      }
+
+      form {
+        border: 2px solid darkred;
+        max-width: 800px;
+        margin: 30px auto;
+        padding: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <form action="/register" method="post" enctype="multipart/form-data">
+      <input type="text" placeholder="adinizi yazin" name="ad" />
+      <input type="text" placeholder="soy adinizi yazin" name="soyad" />
+      <input type="number" placeholder="yasinizi yazin" name="yas" />
+      <input type="file" name="profilSekli" />
+      <input type="submit" value="Gonder" />
+    </form>
+  </body>
+</html>

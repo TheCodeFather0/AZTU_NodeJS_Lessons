@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/">home</a>
+      <a href="/users" class="active">users</a>
+      <a href="/login">login</a>
+      <a href="/register">register</a>
+    </nav>
+    <h1>Users page</h1>
+
+    <div class="users" id="users"></div>
+
+    <script>
+      const url = "https://jsonplaceholder.typicode.com/users";
+      const users = document.getElementById("users");
+      fetch(url)
+        .then((res) => res.json())
+        .then((data) => {
+          data.forEach(({ name, username, email }) => {
+            users.innerHTML += `<div class="user">
+            <p>name: ${name}</p>
+            <p>username: ${username}</p>
+            <p>email: ${email}</p>
+        </div>`;
+          });
+        });
+    </script>
+  </body>
+</html>
