@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <nav>
+      <a href="/">home</a>
+      <a href="/users">users</a>
+      <a href="/login">login</a>
+      <a href="/register" class="active">register</a>
+    </nav>
+    <h2 class="registerTitle">Register</h2>
+    <form id="registerForm" class="registerForm" enctype="multipart/form-data">
+      <input
+        autocomplete="off"
+        type="text"
+        placeholder="username"
+        name="username"
+        id="usernameInp"
+      />
+      <p id="usernameErrMes">istifadeci adi en az 7 simvol olmalidir</p>
+      <input
+        id="emailInp"
+        autocomplete="off"
+        type="email"
+        placeholder="email"
+        name="email"
+      />
+      <p id="emailErrMes">duz ya zibili!</p>
+      <input
+        id="passwordInp"
+        autocomplete="off"
+        type="password"
+        placeholder="password"
+        name="password"
+      />
+      <p id="passaErrMes">sifre en az 7 simvol olmalidir</p>
+      <input id="avatar" type="file" name="avatar" accept="image/*" />
+      <input type="submit" value="register" />
+    </form>
+
+    <script>
+        const registerForm = document.getElementById("registerForm");
+        const passwordInp = document.getElementById("passwordInp");
+        const emailInp = document.getElementById("emailInp");
+        const usernameInp = document.getElementById("usernameInp");
+        const avatar = document.getElementById("avatar");
+        const passaErrMes = document.getElementById("passaErrMes");
+        const usernameErrMes = document.getElementById("usernameErrMes");
+        const emailErrMes = document.getElementById("emailErrMes");
+      
+        const errMessage = (elem, message) => {
+          elem.style.display = "block";
+          elem.textContent = message;
+          setTimeout(() => {
+            elem.style.display = "none";
+          }, 2000);
+        };
+      
+        registerForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          if (
+            passwordInp.value.length < 7 ||
+            usernameInp.value.length < 7 ||
+            emailInp.value.length < 7
+          ) {
+            if (passwordInp.value.length < 7) {
+              errMessage(passaErrMes, "Password must be at least 7 characters.");
+            }
+            if (usernameInp.value.length < 7) {
+              errMessage(usernameErrMes, "Username must be at least 7 characters.");
+            }
+            if (emailInp.value.length < 7) {
+              errMessage(emailErrMes, "Email must be at least 7 characters.");
+            }
+            return;
+          }
+      
+          const data = new FormData();
+          data.append("avatar", avatar.files[0]);
+          data.append("username", usernameInp.value);
+          data.append("email", emailInp.value);
+          data.append("password", passwordInp.value);
+      
+          try {
+            const response = await fetch("http://localhost:5050/register", {
+              method: "POST",
+              body: data,
+            });
+      
+            if (response.ok) {
+              alert("Registration successful");
+              registerForm.reset();
+            } else {
+              const errorMessage = await response.text();
+              alert(`Registration failed: ${errorMessage}`);
+            }
+          } catch (error) {
+            console.error("Error during registration:", error);
+            alert("Registration failed. Please try again later.");
+          }
+        });
+      </script>
+      
+  </body>
+</html>
