@@ -1,23 +1,60 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./css/style.css">
-</head>
-<body>
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
     <nav>
-        <a href="/">home</a>
-        <a href="/users">users</a>
-        <a href="/login"  class="active">login</a>
-        <a href="/register">register</a>
+      <a href="/">home</a>
+      <a href="/users">users</a>
+      <a href="/login" class="active">login</a>
+      <a href="/register">register</a>
     </nav>
     <h2 class="loginTitle">Login</h2>
-    <form action="/login" method="post" class="registerForm">
-        <input autocomplete="off" type="email" placeholder="email" name="email">
-        <input autocomplete="off" type="password" placeholder="password" name="password">
-        <input type="submit" value="login">
+    <form id="loginForm" class="registerForm">
+      <input
+        id="mailInp"
+        autocomplete="off"
+        type="email"
+        placeholder="email"
+        name="email"
+      />
+      <input
+        id="passInp"
+        autocomplete="off"
+        type="password"
+        placeholder="password"
+        name="password"
+      />
+      <input type="submit" value="login" />
     </form>
-</body>
+
+    <script>
+      const loginForm = document.getElementById("loginForm");
+
+      loginForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const mailInp = document.getElementById("mailInp").value;
+        const passInp = document.getElementById("passInp").value;
+
+        fetch("/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: mailInp,
+            password: passInp,
+          }),
+        }).then((res) => {
+          return res.text()
+        }).then((data) => {
+            localStorage.setItem("user",data)
+        })
+      });
+    </script>
+  </body>
 </html>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
-    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="../css/style.css" />
   </head>
   <body>
     <nav>
@@ -17,8 +17,20 @@
 
     <div class="users" id="users"></div>
 
+
     <script>
-      const url = "https://jsonplaceholder.typicode.com/users";
+      
+    </script>
+    <script>
+     fetch("/users",{
+      headers:{
+        'Authorization':`Bearer ${JSON.parse(localStorage.getItem('user')).token}`,
+      }
+     }).then((res) => {
+      return res.json()
+     }).then(data => {
+      if (data) {
+        const url = "https://jsonplaceholder.typicode.com/users";
       const users = document.getElementById("users");
       fetch(url)
         .then((res) => res.json())
@@ -31,6 +43,10 @@
         </div>`;
           });
         });
+      }else {
+        users.innerHTML = 'please login' 
+      }
+     })
     </script>
   </body>
 </html>
