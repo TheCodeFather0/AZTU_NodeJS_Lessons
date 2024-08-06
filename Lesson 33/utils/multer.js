@@ -1,16 +1,14 @@
 import multer, { diskStorage } from "multer";
 import path from 'path'
 
-const fsPath = './images'
 const storage = diskStorage({
-    destination:(req,file,cb) => {
-        cb(null,fsPath)
-    },
+    destination:(req,file,cb) => cb(null,'./images'),
     filename:(req,file,cb) => {
         const {ad,soyad} = req.body
+        console.log(file);
         const extName = path.extname(file.originalname)
         const fileName = `${ad}-${soyad}${extName}`
-        req.body.imagePath = fsPath + '/' + fileName;
+        req.body.imagePath = './images/' + fileName;
         cb(null, fileName)
     }
 });
