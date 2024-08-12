@@ -19,7 +19,7 @@ export const signInService = async(req,res) => {
             userModel.create({
                 username,name,surname,email,
                 password:hassedPassword,
-                photo:`${destination}/${filename}`
+                photo:`${filename}`
             })
             res.redirect("/sign-up")
         }

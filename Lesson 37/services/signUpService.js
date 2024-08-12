@@ -1,15 +1,15 @@
-import { userModel } from "../model/models.js";
 import bcrypt from 'bcrypt'
+import { userModel } from "../model/models.js";
+import jwt from 'jsonwebtoken'
 
 export const signUpService = async(req,res) => {
     const {username,password} = req.body;
     const user = await userModel.findOne({username})
-    console.log(req.body);
     
     if (user) {
         const match = await bcrypt.compare(password, user.password);
         if (match) {
-            const token = '345678'
+        const token = jwt.sign({user}, 'nodejs');
             res.redirect(`/profile/${token}`)
         }else {
             res.send("password is incorrect")
