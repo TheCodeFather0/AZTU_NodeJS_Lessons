@@ -23,11 +23,19 @@
     </nav>
 
     <div class="container">
+      <button class="btn btn-warning tabBtn" data-id="0">personal data</button>
+      <button class="btn btn-warning tabBtn" data-id="1">create blog</button>
+      <button class="btn btn-warning tabBtn" data-id="2">my blogs</button>
+    </div>
+
+    <div class="container mt-5 page">
       <h3>Personal information</h3>
       <div class="card bg-dark text-white">
         <img src="../photos/<%-user.photo%>" />
-        <input type="file" />
-        <button class="btn btn-primary w-25 mt-2">change photo</button>
+        <input type="file" id="photoInp" name="avatar" />
+        <button class="btn btn-primary w-25 mt-2" id="changePhotoBtn">
+          change photo
+        </button>
         <div class="card-body">
           <div class="border p-2" id="changeImgBtn">
             <p>username:</p>
@@ -53,10 +61,38 @@
         </div>
       </div>
     </div>
-    <hr />
-    <div class="container">
+    <div class="container mt-5 page">
+      <form action="/create-blog/<%= token %>" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="text" placeholder="title" name="title">
+        <input type="text" placeholder="description" name="description">
+        <select name="categoryId">
+          <% categories.forEach(({ _id,name }) => { %>
+            <option value="<%= _id %>"><%= name %></option>
+          <% }) %>
+        </select>
+        <input type="submit">
+      </form>
+    </div>
+
+    <div class="container mt-5 page">
       <h3>My blogs</h3>
     </div>
+
+    <script>
+      let activePage = 0;
+      const pages = document.querySelectorAll(".page");
+
+      pages.forEach((page) => (page.style.display = "none"));
+      pages[activePage].style.display = "block";
+
+      const tabButtons = document.querySelectorAll(".tabBtn");
+      tabButtons.forEach((btn) => {
+        btn.addEventListener('click',(e) => {
+          pages.forEach((page) => (page.style.display = "none"));
+          pages[e.target.dataset.id].style.display = "block";
+        });
+      });
+    </script>
 
     <script>
       const changeImgBtn = document.querySelector("#changeImgBtn");
@@ -64,6 +100,8 @@
       const surnameEditBtn = document.querySelector("#surnameEditBtn");
       const usernameEditBtn = document.querySelector("#usernameEditBtn");
       const emailEditBtn = document.querySelector("#emailEditBtn");
+      const photoInp = document.querySelector("#photoInp");
+      const changePhotoBtn = document.querySelector("#changePhotoBtn");
 
       const email = "<%= user.email %>";
       const name = "<%= user.name %>";
@@ -77,7 +115,7 @@
         const isAgree = confirm("deyismek isteyirsiniz");
         if (isAgree) {
           fetch(`http://localhost:5050/edit-profile/${id}`, {
-            method: "POST",
+            method: "PATCH",
             headers: {
               "Content-Type": "application/json",
             },
@@ -85,7 +123,9 @@
               [type]: newData,
             }),
           }).then((res) => {
-            console.log(res);
+            if (res.status === 200) {
+              location.reload();
+            }
           });
         } else {
           alert("senin xetrive deyismedik");
@@ -94,8 +134,27 @@
 
       emailEditBtn.addEventListener("click", () => sendRequest("email", email));
       nameEditBtn.addEventListener("click", () => sendRequest("name", name));
-      surnameEditBtn.addEventListener("click", () => sendRequest("surname", surname));
-      usernameEditBtn.addEventListener("click", () => sendRequest("username", username));
+      surnameEditBtn.addEventListener("click", () =>
+        sendRequest("surname", surname)
+      );
+      usernameEditBtn.addEventListener("click", () =>
+        sendRequest("username", username)
+      );
+
+      changePhotoBtn.addEventListener("click", () => {
+        const photo = new FormData();
+        photo.append("avatar", photoInp.files[0]);
+        fetch(`http://localhost:5050/edit-profile/${id}`, {
+          method: "PATCH",
+          body: photo,
+        }).then((res) => {
+          location.reload();
+        });
+      });
+    </script>
+
+    <script>
+       const _userid = "<%= user.email %>";
     </script>
   </body>
 </html>

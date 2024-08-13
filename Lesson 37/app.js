@@ -9,12 +9,12 @@ const app = express()
 app.use(express.json())
 app.set("view engine","ejs")
 app.use(express.static('./public'))
-app.use(express.urlencoded())
+app.use(express.urlencoded({extended:true}))
 app.use("/",appRouter)
 
 
 app.listen(5050,() => {
-    console.log('server is up');
+    console.log('server is up port 5050');
     connect(CONNECTION_STRING).then(() => {
         console.log('mongo db connected');
     })
